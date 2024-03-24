@@ -1,24 +1,21 @@
 import { useState } from "react"
+import { NewTodoForm } from "./NewTodoForm"
 import "./styles.css"
-
 
 // App component
 export default function App(){
-	 // State variables
-	const [newItem, setNewItem] = useState('') // State for the input value
+	 // State variable
 	const [todos, setTodos] = useState([]) // State for todo items
 
-	function handleSubmit(e){
-		e.preventDefault()
-		
+	function addTodo(title){
+				
 		// Adding new todo item to the list
 		setTodos((currentTodos)=> {
 					return [
-				...currentTodos, {id: crypto.randomUUID(), title:newItem, completed: false}, // New todo object with a unique ID, title, and completed status
+				...currentTodos, {id: crypto.randomUUID(), title, completed: false}, // New todo object with a unique ID, title, and completed status
 			]
 		})	
-		setNewItem('') // Resetting the input field after adding the todo
-	}	
+	}
 
 	// Function to toggle todo item completion status
 	function toggleTodo(id, completed){
@@ -34,7 +31,6 @@ export default function App(){
 		})
 	}
 
-
 	function deleteTodo(id){
 		setTodos(currentTodos => { 
 			// Filtering out the todo item with the provided id
@@ -45,15 +41,7 @@ export default function App(){
 	// Rendering the component
   return (
     <>
-    <form  onSubmit={handleSubmit} className="new-item-form">
-      <div className="form-row">
-        <label htmlFor="item">New Item</label>
-        <input value={newItem} onChange={e => setNewItem(e.target.value)} 
-				type="text" 
-				id="item"/>
-      </div>
-      <button className="btn">Add</button>
-    </form>
+		<NewTodoForm onSubmit={addTodo}/>  
     <h1 className="header">Todo List</h1>
     <ul className="list">
 			{todos.length === 0 && 'No Todos'}
