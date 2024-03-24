@@ -1,28 +1,35 @@
 import { useState } from "react"
 import "./styles.css"
 
+
+// App component
 export default function App(){
-	const [newItem, setNewItem] = useState('')
-	const [todos, setTodos] = useState([])
+	 // State variables
+	const [newItem, setNewItem] = useState('') // State for the input value
+	const [todos, setTodos] = useState([]) // State for todo items
 
 	function handleSubmit(e){
 		e.preventDefault()
 		
+		// Adding new todo item to the list
 		setTodos((currentTodos)=> {
 					return [
-				...currentTodos, {id: crypto.randomUUID(), title:newItem, completed: false}, 
+				...currentTodos, {id: crypto.randomUUID(), title:newItem, completed: false}, // New todo object with a unique ID, title, and completed status
 			]
 		})	
-		setNewItem('')
+		setNewItem('') // Resetting the input field after adding the todo
 	}	
 
+	// Function to toggle todo item completion status
 	function toggleTodo(id, completed){
 		setTodos(currentTodos =>{
+			// Mapping through current todos array
 			return currentTodos.map(todo =>{
+				// Update completion status if todo id matches the argument
 				if(todo.id === id){
-					return {...todo, completed}
+					return {...todo, completed} // Update completion status
 				}
-				return todo
+				return todo // Otherwise, return the todo unchanged
 			})
 		})
 	}
@@ -30,10 +37,12 @@ export default function App(){
 
 	function deleteTodo(id){
 		setTodos(currentTodos => { 
+			// Filtering out the todo item with the provided id
 			return currentTodos.filter(todo => todo.id !== id)
 		})
 	}
 
+	// Rendering the component
   return (
     <>
     <form  onSubmit={handleSubmit} className="new-item-form">
